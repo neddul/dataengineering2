@@ -1,0 +1,47 @@
+version: '3.3'
+services:
+  pulsar:
+    image: apachepulsar/pulsar:2.7.0
+    command: bin/pulsar standalone
+    ports:
+      - "6650:6650"
+      - "8080:8080"
+    volumes:
+      - pulsardata:/pulsar/data
+      - pulsarconf:/pulsar/conf
+
+  producer:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: python producer_4.py
+    depends_on:
+      - pulsar
+
+  consumer1:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: python consumer_4.py shared-subscription
+    depends_on:
+      - pulsar
+
+  consumer2:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: python consumer_4.py shared-subscription
+    depends_on:
+      - pulsar
+
+  aggregator:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: python result_aggregator.py
+    depends_on:
+      - pulsar
+
+volumes:
+  pulsardata:
+  pulsarconf:

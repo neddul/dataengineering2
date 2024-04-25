@@ -1,8 +1,8 @@
 import pulsar
 
-def consume_and_process(subscription_name):
+def consume_and_process():
     client = pulsar.Client('pulsar://localhost:6650')
-    consumer = client.subscribe('word-topic', subscription_name)
+    consumer = client.subscribe('word-topic', 'uppercase-subscription')
     producer = client.create_producer('result-topic')
 
     try:
@@ -20,9 +20,4 @@ def consume_and_process(subscription_name):
         client.close()
 
 if __name__ == "__main__":
-    import sys
-    if len(sys.argv) < 2:
-        print("Usage: python consumer.py <subscription_name>")
-        sys.exit(1)
-    subscription_name = sys.argv[1]
-    consume_and_process(subscription_name)
+    consume_and_process()
