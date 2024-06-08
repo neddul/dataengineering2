@@ -14,7 +14,7 @@ private_net = "UPPMAX 2024/1-4 Internal IPv4 Network"
 floating_ip_pool_name = None
 floating_ip = None
 image_name = "Ubuntu 20.04 - 2023.12.07"
-key_name="cluster-key"
+my_key='cluster-key'
 
 identifier = random.randint(1000,9999)
 
@@ -59,8 +59,8 @@ else:
 secgroups = ['default']
 
 print ("Creating instances ... ")
-instance_prod 	= nova.servers.create(name="lw_2_3_prod_server_with_docker_"+str(identifier),	image=image, flavor=flavor, key_name=key_name, userdata=userdata_prod, nics=nics,security_groups=secgroups)
-instance_dev 	= nova.servers.create(name="lw_2_3_dev_server_"+str(identifier), 		image=image, flavor=flavor, key_name=key_name, userdata=userdata_dev, nics=nics,security_groups=secgroups)
+instance_prod 	= nova.servers.create(name="lw_2_3_prod_server_with_docker_"+str(identifier),	image=image, flavor=flavor, key_name=my_key, userdata=userdata_prod, nics=nics,security_groups=secgroups)
+instance_dev 	= nova.servers.create(name="lw_2_3_dev_server_"+str(identifier), 		image=image, flavor=flavor, key_name=my_key, userdata=userdata_dev, nics=nics,security_groups=secgroups)
 inst_status_prod = instance_prod.status
 inst_status_dev = instance_dev.status
 
