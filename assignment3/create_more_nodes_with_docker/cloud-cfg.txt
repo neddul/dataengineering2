@@ -25,6 +25,7 @@ runcmd:
  - docker compose -f /dataengineering2/assignment3/production_server_with_docker/docker-compose.yml up -d 
 # Start connecting to ray head node
  - sudo apt-get install -y python3-pip;
+ - sudo pip install scikit-learn
  - sudo pip install ray
  - sudo pip install ray[tune]
  - ray start --address='192.168.2.41:6379'
