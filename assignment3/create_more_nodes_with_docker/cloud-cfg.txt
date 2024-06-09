@@ -24,4 +24,4 @@ runcmd:
 # - docker build -f /model_serving/single_server_with_docker/production_server/Dockerfile . 
  - docker compose -f /dataengineering2/assignment3/production_server_with_docker/docker-compose.yml up -d 
 # Start connecting to ray head node
- - ray start --address='130.238.28.57:6379'
+ - ray start --address='192.168.2.41:6379'
