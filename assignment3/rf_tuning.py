@@ -1,4 +1,5 @@
 import ray
+import time
 from ray import tune
 from sklearn.datasets import fetch_covtype
 from sklearn.ensemble import RandomForestClassifier
@@ -37,7 +38,7 @@ search_space = {
 if __name__ == "__main__":
     # Initialize Ray
     ray.init(address='auto')  # Automatically detect the Ray cluster
-    
+    start_time = time.time()
     # Run hyperparameter tuning
     analysis = tune.run(
         train_random_forest,
@@ -47,11 +48,13 @@ if __name__ == "__main__":
         metric="accuracy",
         mode="max"
     )
-    
+    end_time = time.time()
     # Print the best hyperparameter configuration
     print("Best hyperparameter configuration found:")
     best_config = analysis.best_config
     print(best_config)
+
+    print(f"Time spent tuning: {round(end_time-start_time, 3)}")
     
     # Evaluate the best configuration on the test set
     data = fetch_covtype()
