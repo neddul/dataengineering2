@@ -9,7 +9,7 @@ from sklearn.metrics import accuracy_score
 def train_random_forest(config):
     # Load dataset
     data = fetch_covtype()
-    dsl = 1000 # Dataset size limit
+    dsl = 200 # Dataset size limit
     X_train, X_test, y_train, y_test = train_test_split(data.data[:dsl], data.target[:dsl], test_size=0.2, random_state=42)
 
     # Initialize and train the Random Forest classifier
@@ -43,7 +43,7 @@ if __name__ == "__main__":
     analysis = tune.run(
         train_random_forest,
         config=search_space,
-        resources_per_trial={"cpu": 1, "gpu": 0},  # Adjust based on your VM configuration
+        resources_per_trial={"cpu": 2},  # Adjust based on your VM configuration
         num_samples=10,  # Number of hyperparameter configurations to try
         metric="accuracy",
         mode="max"

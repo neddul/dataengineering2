@@ -18,8 +18,9 @@ def train_rf(config):
 
     covtype = fetch_covtype()
     # Select the first 10,000 samples
-    X = covtype.data[:100]
-    y = covtype.target[:100]
+    X = covtype.data[:1000]
+    y = covtype.target[:1000]
+    covtype = None
     #X, y = covtype.data, covtype.target
     model = RandomForestClassifier(
         max_depth=config["max_depth"],
@@ -40,9 +41,9 @@ run_experiments({
     "rf_hyperparameter_tuning": {
         "run": train_rf,
         "config": config,
-        "num_samples": 50,
-        "resources_per_trial": {"cpu": 1},
-        "stop": {"mean_accuracy": 0.99},
+        "num_samples": 1,
+        "resources_per_trial": {"cpu": 2},
+#        "stop": {"mean_accuracy": 0.99},
     }
 })
 
