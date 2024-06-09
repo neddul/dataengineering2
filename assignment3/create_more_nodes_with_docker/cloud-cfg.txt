@@ -28,4 +28,4 @@ runcmd:
  - sudo pip install scikit-learn
  - sudo pip install ray
  - sudo pip install ray[tune]
- - ray start --address='192.168.2.41:6379'
+ - ray start --address='192.168.2.144:6379'
