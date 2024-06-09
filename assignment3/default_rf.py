@@ -8,15 +8,13 @@ from ray import train, tune
 
 ray.init(address="auto")
 
-config={
-            "max_depth": tune.grid_search([10, 20, 30, None]),
-            "n_estimators": tune.grid_search([100, 200]),
-            "ccp_alpha": tune.grid_search([0.0, 0.1, 0.2])
-        }
+clf = RandomForestClassifier()
+config = clf.get_params()
+
 
 def train_rf(config):
     covtype = fetch_covtype()
-    dsl = 2000 # Max dataset size
+    dsl = 20000 # Max dataset size
     X = covtype.data[:dsl]
     y = covtype.target[:dsl]
 

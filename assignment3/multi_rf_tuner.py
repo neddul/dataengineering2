@@ -10,13 +10,13 @@ ray.init(address="auto")
 
 config={
             "max_depth": tune.grid_search([10, 20, 30, None]),
-            "n_estimators": tune.grid_search([100, 200]),
+            "n_estimators": tune.grid_search([100, 200, 300, 400]),
             "ccp_alpha": tune.grid_search([0.0, 0.1, 0.2])
         }
 
 def train_rf(config):
     covtype = fetch_covtype()
-    dsl = 2000 # Max dataset size
+    dsl = 10000 # Max dataset size
     X = covtype.data[:dsl]
     y = covtype.target[:dsl]
 
@@ -38,12 +38,16 @@ def train_rf(config):
     train.report({"mean_accuracy": score})
 
 
-
+# Configure the tuner to use the available resources in the cluster
 tuner = tune.Tuner(
-    train_rf,
-    tune_config=tune.TuneConfig(num_samples=2),
+    tune.with_resources(train_rf, {"cpu": 2, "memory": 2 * 1024 * 1024 * 1024}),  # Request 2 CPUs and 2GB of memory
+    tune_config=tune.TuneConfig(
+        num_samples=2,
+        max_concurrent_trials=3  # Adjust this based on the number of available nodes and resources
+    ),
     param_space=config,
 )
+
 results = tuner.fit()
 
 # Print the best hyperparameters found
